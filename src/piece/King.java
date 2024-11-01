@@ -1,8 +1,6 @@
 package piece;
 import Main.GamePanel;
 import Main.Type;
-import Main.Move;
-import java.util.ArrayList;
 
 public class King extends Piece {
 
@@ -38,7 +36,7 @@ public class King extends Piece {
                    {
                        if (piece.col == preCol + 3 && piece.row == preRow && piece.moved == false)
                        {
-                           GamePanel.castlingP= piece;
+                           //GamePanel.castlingP = piece;
                            return true;
                        }
                    }
@@ -60,7 +58,7 @@ public class King extends Piece {
 
                         if (p[0] == null && p[1] != null && p[1].moved == false)
                         {
-                            GamePanel.castlingP = p[1];
+                            //GamePanel.castlingP = p[1];
                             return true;
                         }
                     }
@@ -70,9 +68,4 @@ public class King extends Piece {
         }
         return false;
     }
-    @Override
-    public String getName() {
-        return "Roi";
-    }
-
 }

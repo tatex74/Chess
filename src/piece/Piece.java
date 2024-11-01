@@ -6,24 +6,19 @@ import java.io.IOException;
 
 import Main.Board;
 import Main.GamePanel;
-import Main.Move;
 import Main.Type;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public abstract class Piece {
+public class Piece {
 
-    public Type type;
+    public Type  type;
     public BufferedImage image;
     public int x, y;
     public int col, row, preCol, preRow;
     public int color;
     public Piece hittingP;
     public boolean moved, twoStepped;
-
 
     public Piece(int col, int row, int color) {
         this.col = col;
@@ -48,7 +43,7 @@ public abstract class Piece {
 
     public int getX(int col) {
         return col * Board.SQUARE_SIZE;
-    } //
+    }
 
     public int getY(int row) {
         return row * Board.SQUARE_SIZE;
@@ -97,14 +92,14 @@ public abstract class Piece {
     }
     public boolean isWithinBoard(int targetCol,int targetRow)
     {
-        if (targetCol >=0 && targetCol <= 7 && targetRow >= 0 && targetRow <= 7) // si la piece est dans le plateau
+        if (targetCol >=0 && targetCol <= 7 && targetRow >= 0 && targetRow <= 7)
         {
             return true;
         }
         return false;
     }
 
-    public boolean isSameSquare (int targetCol, int targetRow) { // pour verifier si la piece est sur la meme case
+    public boolean isSameSquare (int targetCol, int targetRow) {
         if (preCol == targetCol && preRow == targetRow) {
             return true;
         }
@@ -220,88 +215,8 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract String getName();
 
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
-    }
-
-    public JSONObject toJson() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type", type);
-        jsonObject.put("col", col);
-        jsonObject.put("row", row);
-        jsonObject.put("preCol", preCol);
-        jsonObject.put("preRow", preRow);
-        jsonObject.put("color", color);
-        return jsonObject;
-    }
-
-    public static Piece fromJson(JSONObject jsonObject) {
-
-        String strType = jsonObject.getString("type");
-        int col = jsonObject.getInt("col");
-        int row = jsonObject.getInt("row");
-        int preCol = jsonObject.getInt("preCol");
-        int preRow = jsonObject.getInt("preRow");
-        int color = jsonObject.getInt("color");
-
-        Piece piece;
-
-        switch (strType) {
-            case "BISHOP":
-                piece = new Bishop(col, row, color);
-                break;
-            case "KING":
-                piece = new King(col, row, color);
-                break;
-            case "KNIGHT":
-                piece = new Knight(col, row, color);
-                break;
-            case "PAWN":
-                piece = new Pawn(col, row, color);
-                break;
-            case "QUEEN":
-                piece = new Queen(col, row, color);
-                break;
-            case "ROOK":
-                piece = new Rook(col, row, color);
-                break;
-            default:
-                return null;
-        }
-
-        piece.preCol = preCol;
-        piece.preRow = preRow;
-
-        return piece;
-    }
-
-    public void move(int targetCol, int targetRow) {
-        // Mettre à jour la position précédente
-        preCol = col;
-        preRow = row;
-
-        // Mettre à jour la position actuelle
-        col = targetCol;
-        row = targetRow;
-
-        // Mettre à jour les coordonnées x et y
-        x = getX(col);
-        y = getY(row);
-
-        // Vérifier s'il y a une pièce à capturer
-        Piece capturedPiece = getHittingP(targetCol, targetRow);
-        if (capturedPiece != null) {
-            GamePanel.simPieces.remove(capturedPiece);
-        }
-
-        // Marquer la pièce comme ayant bougé
-        moved = true;
-    }
-    public ArrayList<Move> getPossibleMoves() {
-        ArrayList<Move> moves = new ArrayList<>();
-        // Logique pour ajouter les mouvements possibles du pion
-        return moves;
     }
 }

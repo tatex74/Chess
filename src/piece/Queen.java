@@ -1,8 +1,6 @@
 package piece;
 import Main.GamePanel;
 import Main.Type;
-import Main.Move;
-import java.util.ArrayList;
 
 public class Queen extends Piece {
 
@@ -32,9 +30,4 @@ public class Queen extends Piece {
         }
         return false;
     }
-    @Override
-    public String getName() {
-        return "Reine";
-    }
-
 }

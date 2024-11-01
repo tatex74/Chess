@@ -1,13 +1,10 @@
 package piece;
 import Main.GamePanel;
 import Main.Type;
-import Main.Move;
-import java.util.ArrayList;
 
 public class Rook extends Piece {
 
     public Rook(int col, int row, int color) {
-
         super(col, row, color);
 
         type = Type.ROOK;
@@ -28,10 +25,4 @@ public class Rook extends Piece {
         }
         return false;
     }
-    @Override
-    public String getName() {
-        return "Tour";
-    }
-
-
 }
