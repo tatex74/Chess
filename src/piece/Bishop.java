@@ -1,6 +1,9 @@
-package piece;
+package Piece;
+import Main.Board;
 import Main.GamePanel;
 import Main.Type;
+
+import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
@@ -10,19 +13,25 @@ public class Bishop extends Piece {
         type = Type.BISHOP;
 
         if (color == GamePanel.WHITE) {
-            image = getImage("/piece/w-bishop");
+            image = getImage("/Piece/w-bishop");
         } else {
-            image = getImage("/piece/b-bishop");
+            image = getImage("/Piece/b-bishop");
         }
     }
-    public boolean canMove(int targetCol, int targetRow) {
-        if (isWithinBoard(targetCol, targetRow) ) {
-            if (Math.abs(targetCol - preCol) == Math.abs(targetRow - preRow)) {
-                if (isValidSquare(targetCol, targetRow) && pieceIsOnDiagonalLine(targetCol, targetRow) == false) {
-                    return true;
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+        if (Board.isWithinBoard(targetCol, targetRow) ) {
+            if (targetCol != preCol || targetRow != preRow) { // Vérifie que la case cible est différente de la case actuelle
+                if (Math.abs(targetCol - preCol) == Math.abs(targetRow - preRow)) {
+                    if (isValidSquare(pieces, targetCol, targetRow) && !pieceIsOnDiagonalLine(pieces, targetCol, targetRow)) {
+                        return isLegalMove(pieces, targetCol, targetRow);
+                    }
                 }
             }
         }
         return false;
+    }
+    @Override
+    public String getName() {
+        return "Fou";
     }
 }

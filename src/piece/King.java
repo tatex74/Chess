@@ -1,6 +1,9 @@
-package piece;
+package Piece;
+import Main.Board;
 import Main.GamePanel;
 import Main.Type;
+
+import java.util.ArrayList;
 
 public class King extends Piece {
 
@@ -10,62 +13,48 @@ public class King extends Piece {
         type = Type.KING;
 
         if (color == GamePanel.WHITE) {
-            image = getImage("/piece/w-king");
+            image = getImage("/Piece/w-king");
         } else {
-            image = getImage("/piece/b-king");
+            image = getImage("/Piece/b-king");
         }
     }
 
-    public boolean canMove(int targetCol, int targetRow) {
-        if (isWithinBoard(targetCol, targetRow) ) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+        if (Board.isWithinBoard(targetCol, targetRow) ) {
             if (Math.abs(targetCol - preCol) + Math.abs(targetRow - preRow) == 1 || //se deplace en carré
                     Math.abs(targetCol - preCol) * Math.abs(targetRow - preRow) == 1)  //se deplace en diagonale
             {
-                if (isValidSquare(targetCol, targetRow)) {
-                    return true;
+                if (isValidSquare(pieces, targetCol, targetRow)) {
+                    return isLegalMove(pieces, targetCol, targetRow);
                 }
             }
 
-            //Petit roque
-            if(moved ==false)
-            {
-                //roque droit
-                if(targetCol == preCol + 2 && targetRow == preRow && pieceIsOnStraightLine(targetCol, targetRow) == false)
-                {
-                   for (Piece piece : GamePanel.simPieces)
-                   {
-                       if (piece.col == preCol + 3 && piece.row == preRow && piece.moved == false)
-                       {
-                           //GamePanel.castlingP = piece;
-                           return true;
-                       }
-                   }
+            // Castling
+            if(!this.moved && targetRow == preRow &&
+                    !pieceIsOnStraightLine(pieces, targetCol, targetRow) &&
+                    (targetCol == preCol + 2 || targetCol == preCol - 2)) {
+                Piece rook;
+                if (targetCol == preCol + 2) {
+                    rook = getHittingP(pieces, 7, targetRow);
                 }
-                //roque gauche
-                if(targetCol == preCol - 2 && targetRow == preRow && pieceIsOnStraightLine(targetCol, targetRow) == false)
-                {
-                    Piece p[]= new Piece[2];
-                    for (Piece piece : GamePanel.simPieces)
-                    {
-                        if (piece.col == preCol - 3 && piece.row == targetRow)
-                        {
-                            p[0] = piece;
-                        }
-                        if (piece.col == preCol - 4 && piece.row == targetRow)
-                        {
-                            p[1] = piece;
-                        }
-
-                        if (p[0] == null && p[1] != null && p[1].moved == false)
-                        {
-                            //GamePanel.castlingP = p[1];
-                            return true;
-                        }
+                else  {
+                    rook = getHittingP(pieces, 0, targetRow);
+                }
+                if (rook != null && !rook.moved) {
+                    if (!Move.isKingInCheck(pieces, this.color)) {
+                        return isLegalMove(pieces, preCol + (targetCol-this.preCol)/2, targetRow) &&
+                                isLegalMove(pieces, targetCol, targetRow);
                     }
                 }
             }
-
         }
+
         return false;
     }
+
+    @Override
+    public String getName() {
+        return "Roi";
+    }
+
 }
