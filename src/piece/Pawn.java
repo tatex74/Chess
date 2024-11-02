@@ -8,15 +8,17 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
-    public Pawn(int col, int row, int color) {
+    public Pawn(int col, int row, int color, boolean isImage) {
         super(col, row, color);
 
         type = Type.PAWN;
 
-        if (color == GamePanel.WHITE) {
-            image = getImage("/Piece/w-pawn");
-        } else {
-            image = getImage("/Piece/b-pawn");
+        if (isImage) {
+            if (color == GamePanel.WHITE) {
+                image = getImage("/Piece/w-pawn");
+            } else {
+                image = getImage("/Piece/b-pawn");
+            }
         }
     }
 

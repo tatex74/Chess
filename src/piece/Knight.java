@@ -7,15 +7,17 @@ import java.util.ArrayList;
 
 public class Knight extends Piece {
 
-    public Knight(int col, int row, int color) {
+    public Knight(int col, int row, int color, boolean isImage) {
         super(col, row, color);
 
         type = Type.KNIGHT;
 
-        if (color == GamePanel.WHITE) {
-            image = getImage("/Piece/w-knight");
-        } else {
-            image = getImage("/Piece/b-knight");
+        if (isImage) {
+            if (color == GamePanel.WHITE) {
+                image = getImage("/Piece/w-knight");
+            } else {
+                image = getImage("/Piece/b-knight");
+            }
         }
     }
     public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {

@@ -79,7 +79,7 @@ public class Move {
     }
 
     public String toString() {
-        return (col + " " + row + " " + targetCol + " " + targetRow);
+        return ("" + colToChessCol(col) + rowToChessRow(row) + " " + colToChessCol(targetCol) + rowToChessRow(targetRow));
     }
 
     public static boolean isKingInCheck(ArrayList<Piece> listPieces, int color) // On regarde si le roi est en echec

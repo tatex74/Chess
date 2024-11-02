@@ -7,15 +7,17 @@ import java.util.ArrayList;
 
 public class King extends Piece {
 
-    public King(int col, int row, int color) {
+    public King(int col, int row, int color, boolean isImage) {
         super(col, row, color);
 
         type = Type.KING;
 
-        if (color == GamePanel.WHITE) {
-            image = getImage("/Piece/w-king");
-        } else {
-            image = getImage("/Piece/b-king");
+        if (isImage) {
+            if (color == GamePanel.WHITE) {
+                image = getImage("/Piece/w-king");
+            } else {
+                image = getImage("/Piece/b-king");
+            }
         }
     }
 

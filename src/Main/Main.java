@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-    public static int currentColor;
 
     public static void main(String[] args) {
         JFrame window = new JFrame("Echec");

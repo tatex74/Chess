@@ -7,15 +7,17 @@ import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
-    public Bishop(int col, int row, int color) {
+    public Bishop(int col, int row, int color, boolean isImage) {
         super(col, row, color);
 
         type = Type.BISHOP;
 
-        if (color == GamePanel.WHITE) {
-            image = getImage("/Piece/w-bishop");
-        } else {
-            image = getImage("/Piece/b-bishop");
+        if (isImage) {
+            if (color == GamePanel.WHITE) {
+                image = getImage("/Piece/w-bishop");
+            } else {
+                image = getImage("/Piece/b-bishop");
+            }
         }
     }
     public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {

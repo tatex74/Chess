@@ -7,15 +7,17 @@ import java.util.ArrayList;
 
 public class Queen extends Piece {
 
-    public Queen(int col, int row, int color) {
+    public Queen(int col, int row, int color, boolean isImage) {
         super(col, row, color);
 
         type = Type.QUEEN;
 
-        if (color == GamePanel.WHITE) {
-            image = getImage("/Piece/w-queen");
-        } else {
-            image = getImage("/Piece/b-queen");
+        if (isImage) {
+            if (color == GamePanel.WHITE) {
+                image = getImage("/Piece/w-queen");
+            } else {
+                image = getImage("/Piece/b-queen");
+            }
         }
     }
     public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {

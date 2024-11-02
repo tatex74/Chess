@@ -34,14 +34,14 @@ public abstract class Piece {
         this.y = getY(row);
     }
 
-    public Piece copyPiece() {
+    public Piece copyPiece(boolean isImage) {
         Piece newPiece = switch (this.type) {
-            case BISHOP -> new Bishop(this.col, this.row, this.color);
-            case KING -> new King(this.col, this.row, this.color);
-            case KNIGHT -> new Knight(this.col, this.row, this.color);
-            case PAWN -> new Pawn(this.col, this.row, this.color);
-            case QUEEN -> new Queen(this.col, this.row, this.color);
-            case ROOK -> new Rook(this.col, this.row, this.color);
+            case BISHOP -> new Bishop(this.col, this.row, this.color, isImage);
+            case KING -> new King(this.col, this.row, this.color, isImage);
+            case KNIGHT -> new Knight(this.col, this.row, this.color, isImage);
+            case PAWN -> new Pawn(this.col, this.row, this.color, isImage);
+            case QUEEN -> new Queen(this.col, this.row, this.color, isImage);
+            case ROOK -> new Rook(this.col, this.row, this.color, isImage);
         };
 
         newPiece.x = this.x;
@@ -104,6 +104,7 @@ public abstract class Piece {
         preRow = getRow(y);
         moved = true;
     }
+
     public void resetPosition() {
         col = preCol;
         row = preRow;
@@ -293,22 +294,22 @@ public abstract class Piece {
 
         switch (strType) {
             case "BISHOP":
-                piece = new Bishop(col, row, color);
+                piece = new Bishop(col, row, color, true);
                 break;
             case "KING":
-                piece = new King(col, row, color);
+                piece = new King(col, row, color, true);
                 break;
             case "KNIGHT":
-                piece = new Knight(col, row, color);
+                piece = new Knight(col, row, color, true);
                 break;
             case "PAWN":
-                piece = new Pawn(col, row, color);
+                piece = new Pawn(col, row, color, true);
                 break;
             case "QUEEN":
-                piece = new Queen(col, row, color);
+                piece = new Queen(col, row, color, true);
                 break;
             case "ROOK":
-                piece = new Rook(col, row, color);
+                piece = new Rook(col, row, color, true);
                 break;
             default:
                 return null;
