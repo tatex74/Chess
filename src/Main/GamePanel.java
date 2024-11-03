@@ -2,7 +2,9 @@ package Main;
 
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -200,6 +202,7 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         evaluateBoard(pieces);
     }
     private void saveGame() {
+        // Création du fichier JSON avec les données du jeu
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("currentPlayer", currentPlayer);
         jsonObject.put("currentColor", currentColor);
@@ -210,13 +213,11 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         jsonObject.put("stalemate", stalemate);
         jsonObject.put("promotion", promotion);
 
-
         JSONArray jsonPieces = new JSONArray();
         for (Piece piece : pieces) {
             jsonPieces.put(piece.toJson());
         }
         jsonObject.put("pieces", jsonPieces);
-
 
         JSONArray jsonSimPieces = new JSONArray();
         for (Piece piece : simPieces) {
@@ -230,84 +231,138 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         }
         jsonObject.put("historize", jsonHistorize);
 
+        // Ouvrir un explorateur de fichiers pour permettre à l'utilisateur de choisir l'emplacement et le nom du fichier
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Enregistrer la sauvegarde");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers JSON", "json"));
 
+        int userSelection = fileChooser.showSaveDialog(null);
 
-        // Specify the file path for output
-        String filePath = "save.json";
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
 
-        try (FileWriter file = new FileWriter(filePath)) {
-            file.write(jsonObject.toString(4));
-        } catch (IOException e) {
-            e.printStackTrace();
+            // Ajouter l'extension .json si elle est manquante
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.endsWith(".json")) {
+                filePath += ".json";
+            }
+
+            // Écrire les données JSON dans le fichier choisi par l'utilisateur
+            try (FileWriter file = new FileWriter(filePath)) {
+                file.write(jsonObject.toString(4));
+                System.out.println("Sauvegarde réussie : " + filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void loadGame() {
-        gameState = playState;
-        gameover = false;
-        ff = false;
-        timeout = false;
+    public void loadGame() {
 
-        String filePath = "save.json";
+        // Ouvrir un explorateur de fichiers pour sélectionner le fichier de sauvegarde
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Charger une sauvegarde");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers JSON", "json"));
 
-        try (FileReader reader = new FileReader(filePath)) {
-            StringBuilder jsonContent = new StringBuilder();
-            int i;
-            while ((i = reader.read()) != -1) {
-                jsonContent.append((char) i);
+        int userSelection = fileChooser.showOpenDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToLoad = fileChooser.getSelectedFile();
+            String filePath = fileToLoad.getAbsolutePath();
+
+            try (FileReader reader = new FileReader(filePath)) {
+                StringBuilder jsonContent = new StringBuilder();
+                int i;
+                while ((i = reader.read()) != -1) {
+                    jsonContent.append((char) i);
+                }
+
+                JSONObject jsonObject = new JSONObject(jsonContent.toString());
+
+                // Vérification des clés essentielles pour s'assurer que c'est une sauvegarde valide de jeu d'échecs
+                if (isValidChessSave(jsonObject)) {
+                    // Charger les données du fichier JSON
+                    currentPlayer = jsonObject.getString("currentPlayer");
+                    currentColor = jsonObject.getInt("currentColor");
+                    VsAI = jsonObject.getBoolean("VsAI");
+                    VsPlayer = jsonObject.getBoolean("VsPlayer");
+                    whiteTimeRemaining = jsonObject.getInt("whiteTimeRemaining");
+                    blackTimeRemaining = jsonObject.getInt("blackTimeRemaining");
+                    stalemate = jsonObject.getBoolean("stalemate");
+                    promotion = jsonObject.getBoolean("promotion");
+
+                    // Charger les pièces
+                    JSONArray jsonPieces = jsonObject.getJSONArray("pieces");
+                    pieces.clear();
+                    for (int j = 0; j < jsonPieces.length(); j++) {
+                        JSONObject jsonPiece = jsonPieces.getJSONObject(j);
+                        Piece piece = Piece.fromJson(jsonPiece);
+                        pieces.add(piece);
+
+                    }
+
+                    // Charger les pièces simulées
+                    JSONArray jsonSimPieces = jsonObject.getJSONArray("simPieces");
+                    simPieces.clear();
+                    for (int j = 0; j < jsonSimPieces.length(); j++) {
+                        JSONObject jsonSimPiece = jsonSimPieces.getJSONObject(j);
+                        Piece simPiece = Piece.fromJson(jsonSimPiece);
+                        simPieces.add(simPiece);
+                    }
+
+                    // Charger l'historique des mouvements
+                    JSONArray jsonHistorize = jsonObject.getJSONArray("historize");
+                    Historizes.clear();
+                    for (int j = 0; j < jsonHistorize.length(); j++) {
+                        Historizes.add(jsonHistorize.getString(j));
+                    }
+
+                    // Initialiser l'état du jeu
+                    gameState = playState;
+                    gameover = false;
+                    ff = false;
+                    timeout = false;
+                    stalemate = false;
+                    evaluateBoard(pieces);
+                    removeButtons();
+                    startTimer();
+
+                    if (currentColor == WHITE) {
+                        blackTimer.stop();
+                        whiteTimer.start();
+                    } else {
+                        blackTimer.start();
+                        whiteTimer.stop();
+                    }
+                } else {
+                    System.out.println("Le fichier sélectionné n'est pas une sauvegarde de jeu d'échecs valide.");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
+    }
 
-            JSONObject jsonObject = new JSONObject(jsonContent.toString());
-
-            currentPlayer = jsonObject.getString("currentPlayer");
-            currentColor = jsonObject.getInt("currentColor");
-            VsAI = jsonObject.getBoolean("VsAI");
-            VsPlayer = jsonObject.getBoolean("VsPlayer");
-            whiteTimeRemaining = jsonObject.getInt("whiteTimeRemaining");
-            blackTimeRemaining = jsonObject.getInt("blackTimeRemaining");
-            stalemate = jsonObject.getBoolean("stalemate");
-            promotion = jsonObject.getBoolean("promotion");
-
-
-            JSONArray jsonPieces = jsonObject.getJSONArray("pieces");
-            pieces.clear();
-            for (int j = 0; j < jsonPieces.length(); j++) {
-                JSONObject jsonPiece = jsonPieces.getJSONObject(j);
-                Piece piece = Piece.fromJson(jsonPiece);
-                pieces.add(piece);
-            }
-
-            JSONArray jsonSimPieces = jsonObject.getJSONArray("simPieces");
-            simPieces.clear();
-            for (int j = 0; j < jsonSimPieces.length(); j++) {
-                JSONObject jsonSimPiece = jsonSimPieces.getJSONObject(j);
-                Piece simPiece = Piece.fromJson(jsonSimPiece);
-                simPieces.add(simPiece);
-            }
-
-            JSONArray jsonHistorize = jsonObject.getJSONArray("historize");
-            Historizes.clear();
-            for (int j = 0; j < jsonHistorize.length(); j++) {
-                this.Historizes.add(jsonHistorize.getString(j));
-            }
-
-        } catch (IOException e) {
+    private boolean isValidChessSave(JSONObject jsonObject) {
+        try {
+            // Vérification des clés principales et de leur type attendu
+            return jsonObject.has("currentPlayer") && jsonObject.get("currentPlayer") instanceof String
+                    && jsonObject.has("currentColor") && jsonObject.get("currentColor") instanceof Integer
+                    && jsonObject.has("VsAI") && jsonObject.get("VsAI") instanceof Boolean
+                    && jsonObject.has("VsPlayer") && jsonObject.get("VsPlayer") instanceof Boolean
+                    && jsonObject.has("whiteTimeRemaining") && jsonObject.get("whiteTimeRemaining") instanceof Integer
+                    && jsonObject.has("blackTimeRemaining") && jsonObject.get("blackTimeRemaining") instanceof Integer
+                    && jsonObject.has("stalemate") && jsonObject.get("stalemate") instanceof Boolean
+                    && jsonObject.has("promotion") && jsonObject.get("promotion") instanceof Boolean
+                    && jsonObject.has("pieces") && jsonObject.get("pieces") instanceof JSONArray
+                    && jsonObject.has("simPieces") && jsonObject.get("simPieces") instanceof JSONArray
+                    && jsonObject.has("historize") && jsonObject.get("historize") instanceof JSONArray;
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-        evaluateBoard(pieces);
-        removeButtons();
-
-        startTimer();
-
-        if (currentColor == WHITE) {
-            blackTimer.stop();
-            whiteTimer.start();
-        }
-        else {
-            blackTimer.start();
-            whiteTimer.stop();
-        }
     }
 
 
