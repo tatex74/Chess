@@ -38,6 +38,8 @@ public class Move {
             }
         }
 
+        System.out.println(possibleMove);
+
         return possibleMove;
     }
 
@@ -108,6 +110,7 @@ public class Move {
                     return false;
                 }
             }
+
             return true;
         } else {
             return false;

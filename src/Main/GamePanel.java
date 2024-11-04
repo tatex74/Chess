@@ -158,7 +158,6 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         copyPieces(pieces, simPieces);
         evaluateBoard(pieces);
         removeButtons();
-        startTimer();
     }
 
     private void abandonGame() {
@@ -504,6 +503,8 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
             } else {
                 Move AIMove = Minimax.findBestMove(pieces, BLACK);
                 Minimax.makeMove(pieces, AIMove);
+                Move.recordMove(Piece.getPieceByCoord(pieces, AIMove.targetCol, AIMove.targetRow), Historizes,
+                        AIMove.col, AIMove.row, AIMove.targetCol, AIMove.targetRow);
                 repaintTeam = true;
                 changePlayer();
             }
@@ -616,8 +617,11 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
                 }
             }
 
-            whiteTimer.start();
-            blackTimer.stop();
+            if (!VsAI) {
+                whiteTimer.start();
+                blackTimer.stop();
+            }
+
         } else {
             currentColor = WHITE;
             currentPlayer = "Blanc";
@@ -629,8 +633,10 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
                 }
             }
 
-            blackTimer.start();
-            whiteTimer.stop();
+            if (!VsAI) {
+                blackTimer.start();
+                whiteTimer.stop();
+            }
         }
 
         activeP = null;
@@ -771,14 +777,17 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
                 }
             }
             //Timer
-            int Wminutes = whiteTimeRemaining / 60;
-            int Wseconds = whiteTimeRemaining % 60;
-            int Bminutes = blackTimeRemaining / 60;
-            int Bseconds = blackTimeRemaining % 60;
-            g2.setFont(new Font("Arial", Font.BOLD, 20));
-            g2.setColor(Color.WHITE);
-            g2.drawString(String.format("Temps restant Blanc : %02d:%02d", Wminutes, Wseconds), 1200, 60);
-            g2.drawString(String.format("Temps restant Noir : %02d:%02d", Bminutes, Bseconds), 1200, 120);
+            if (!VsAI) {
+                int Wminutes = whiteTimeRemaining / 60;
+                int Wseconds = whiteTimeRemaining % 60;
+                int Bminutes = blackTimeRemaining / 60;
+                int Bseconds = blackTimeRemaining % 60;
+                g2.setFont(new Font("Arial", Font.BOLD, 20));
+                g2.setColor(Color.WHITE);
+                g2.drawString(String.format("Temps restant Blanc : %02d:%02d", Wminutes, Wseconds), 1200, 60);
+                g2.drawString(String.format("Temps restant Noir : %02d:%02d", Bminutes, Bseconds), 1200, 120);
+            }
+
             //score
             int[] scores = evaluateBoard(pieces);
             g2.drawString("Score Blanc : " + scores[0], 1200, 180);

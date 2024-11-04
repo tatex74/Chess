@@ -170,8 +170,7 @@ public abstract class Piece {
 
         int preCol = this.preCol;
         int preRow = this.preRow;
-        this.preCol = targetCol;
-        this.preRow = targetRow;
+        this.preCol = targetCol; this.preRow = targetRow;
 
         if (Move.isKingInCheck(simPieces, this.color)) {
             this.preCol = preCol; this.preRow = preRow;
@@ -187,7 +186,7 @@ public abstract class Piece {
         // si la piece va à gauche
         for (int c = preCol - 1; c > targetCol; c--) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == targetRow) {
+                if (piece.preCol == c && piece.preRow == targetRow) {
                     hittingP = piece;
                     return true;
                 }
@@ -196,7 +195,7 @@ public abstract class Piece {
         // si la piece va à droite
         for (int c = preCol + 1; c < targetCol; c++) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == targetRow) {
+                if (piece.preCol == c && piece.preRow == targetRow) {
                     hittingP = piece;
                     return true;
                 }
@@ -205,7 +204,7 @@ public abstract class Piece {
         // si la piece va en haut
         for (int r = preRow - 1; r > targetRow; r--) {
             for (Piece piece : pieces) {
-                if (piece.col == targetCol && piece.row == r) {
+                if (piece.preCol == targetCol && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
@@ -214,7 +213,7 @@ public abstract class Piece {
         // si la piece va en bas
         for (int r = preRow + 1; r < targetRow; r++) {
             for (Piece piece : pieces) {
-                if (piece.col == targetCol && piece.row == r) {
+                if (piece.preCol == targetCol && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
@@ -228,7 +227,7 @@ public abstract class Piece {
         // si la piece va en haut à gauche
         for (int c = preCol - 1, r = preRow - 1; c > targetCol && r > targetRow; c--, r--) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == r) {
+                if (piece.preCol == c && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
@@ -237,7 +236,7 @@ public abstract class Piece {
         // si la piece va en haut à droite
         for (int c = preCol + 1, r = preRow - 1; c < targetCol && r > targetRow; c++, r--) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == r) {
+                if (piece.preCol == c && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
@@ -246,7 +245,7 @@ public abstract class Piece {
         // si la piece va en bas à gauche
         for (int c = preCol - 1, r = preRow + 1; c > targetCol && r < targetRow; c--, r++) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == r) {
+                if (piece.preCol == c && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
@@ -255,7 +254,7 @@ public abstract class Piece {
         // si la piece va en bas à droite
         for (int c = preCol + 1, r = preRow + 1; c < targetCol && r < targetRow; c++, r++) {
             for (Piece piece : pieces) {
-                if (piece.col == c && piece.row == r) {
+                if (piece.preCol == c && piece.preRow == r) {
                     hittingP = piece;
                     return true;
                 }
