@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import Main.Board;
-import Main.Type;
+import Logic.Game;
+import Panel.Board;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,6 +53,15 @@ public abstract class Piece {
         newPiece.twoStepped = this.twoStepped;
 
         return newPiece;
+    }
+
+    public static ArrayList<Piece> copyPieces(ArrayList<Piece> pieces) {
+        ArrayList<Piece> piecesCopy = new ArrayList<>();
+        for (Piece piece : pieces) {
+            piecesCopy.add(piece.copyPiece(false));
+        }
+
+        return piecesCopy;
     }
 
     public BufferedImage getImage(String imagePath) {
@@ -112,7 +121,7 @@ public abstract class Piece {
         y = getY(row);
     }
 
-    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int TargetRow) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int TargetRow, boolean verifyLegal) {
         return false;
     }
 
@@ -172,7 +181,7 @@ public abstract class Piece {
         int preRow = this.preRow;
         this.preCol = targetCol; this.preRow = targetRow;
 
-        if (Move.isKingInCheck(simPieces, this.color)) {
+        if (Game.isKingInCheck(simPieces, this.color, false)) {
             this.preCol = preCol; this.preRow = preRow;
             return false;
         }
@@ -182,7 +191,7 @@ public abstract class Piece {
         return true;
     }
 
-    public boolean pieceIsOnStraightLine(ArrayList<Piece> pieces, int targetCol, int targetRow) { // pour verifier si une piece est sur la trajectoire de la piece
+    public boolean isPieceOnStraightLine(ArrayList<Piece> pieces, int targetCol, int targetRow) { // pour verifier si une piece est sur la trajectoire de la piece
         // si la piece va à gauche
         for (int c = preCol - 1; c > targetCol; c--) {
             for (Piece piece : pieces) {
@@ -223,7 +232,7 @@ public abstract class Piece {
     }
 
 
-    public boolean pieceIsOnDiagonalLine(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+    public boolean isPieceOnDiagonalLine(ArrayList<Piece> pieces, int targetCol, int targetRow) {
         // si la piece va en haut à gauche
         for (int c = preCol - 1, r = preRow - 1; c > targetCol && r > targetRow; c--, r--) {
             for (Piece piece : pieces) {

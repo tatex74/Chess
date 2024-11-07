@@ -1,7 +1,6 @@
 package Piece;
-import Main.Board;
-import Main.GamePanel;
-import Main.Type;
+import Logic.Game;
+import Panel.Board;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class Pawn extends Piece {
         type = Type.PAWN;
 
         if (isImage) {
-            if (color == GamePanel.WHITE) {
+            if (color == Game.WHITE) {
                 image = getImage("/Piece/w-pawn");
             } else {
                 image = getImage("/Piece/b-pawn");
@@ -22,11 +21,11 @@ public class Pawn extends Piece {
         }
     }
 
-    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow, boolean verifyLegal) {
         if (Board.isWithinBoard(targetCol, targetRow) && !isSameSquare(targetCol, targetRow)) {
             //definnir le mouvement selon la couleur
             int moveValue;
-            if (color == GamePanel.WHITE) {
+            if (color == Game.WHITE) {
                 moveValue = -1;
             } else {
                 moveValue = 1;
@@ -36,17 +35,29 @@ public class Pawn extends Piece {
 
             //mouvement d'un carré
             if (targetCol == preCol && targetRow == preRow + moveValue && hittingP == null) {
+                if (verifyLegal) {
                     return isLegalMove(pieces, targetCol, targetRow);
+                } else {
+                    return true;
+                }
             }
             //mouvement de deux carrés
             if(targetCol == preCol && targetRow == preRow + 2*moveValue && hittingP == null && !moved
-            && !pieceIsOnStraightLine(pieces, targetCol, targetRow)){
-                return isLegalMove(pieces, targetCol, targetRow);
+            && !isPieceOnStraightLine(pieces, targetCol, targetRow)){
+                if (verifyLegal) {
+                    return isLegalMove(pieces, targetCol, targetRow);
+                } else {
+                    return true;
+                }
             }
             // capture diagonale
             if (Math.abs(targetCol - preCol) == 1 && targetRow == preRow + moveValue && hittingP != null &&
             hittingP.color != color) {
-                return isLegalMove(pieces, targetCol, targetRow);
+                if (verifyLegal) {
+                    return isLegalMove(pieces, targetCol, targetRow);
+                } else {
+                    return true;
+                }
             }
 
             //en passant
@@ -57,7 +68,11 @@ public class Pawn extends Piece {
                     if (piece.col == targetCol && piece.row == preRow && piece.twoStepped)
                     {
                         hittingP = piece;
-                        return isLegalMove(pieces, targetCol, targetRow);
+                        if (verifyLegal) {
+                            return isLegalMove(pieces, targetCol, targetRow);
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package Main;
+package Piece;
 
 public enum Type {
     PAWN,

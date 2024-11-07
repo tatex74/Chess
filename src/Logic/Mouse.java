@@ -1,4 +1,4 @@
-package Main;
+package Logic;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

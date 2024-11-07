@@ -1,7 +1,7 @@
 package Piece;
-import Main.Board;
-import Main.GamePanel;
-import Main.Type;
+import Logic.Game;
+import Panel.Board;
+import Panel.GamePanel;
 
 import java.util.ArrayList;
 
@@ -13,19 +13,23 @@ public class Knight extends Piece {
         type = Type.KNIGHT;
 
         if (isImage) {
-            if (color == GamePanel.WHITE) {
+            if (color == Game.WHITE) {
                 image = getImage("/Piece/w-knight");
             } else {
                 image = getImage("/Piece/b-knight");
             }
         }
     }
-    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow, boolean verifyLegal) {
         if (Board.isWithinBoard(targetCol, targetRow) ) {
             //calcul de la distance entre la case de départ et la case d'arrivée du chevalier
             if (Math.abs(targetCol - preCol) * Math.abs(targetRow - preRow) == 2) {
                 if (isValidSquare(pieces, targetCol, targetRow)) {
-                    return isLegalMove(pieces, targetCol, targetRow);
+                    if (verifyLegal) {
+                        return isLegalMove(pieces, targetCol, targetRow);
+                    } else {
+                        return true;
+                    }
                 }
             }
         }

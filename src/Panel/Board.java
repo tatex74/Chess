@@ -1,4 +1,4 @@
-package Main;
+package Panel;
 
 import java.awt.*;
 
@@ -33,6 +33,22 @@ public class Board {
             {
                 c=0;
             }
+        }
+
+        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.setColor(Color.WHITE);
+
+        // Dessiner les lettres (a-h) en haut et en bas du plateau
+        for (int col = 0; col < 8; col++) {
+            char letter = (char) ('a' + col);
+            g2.drawString(String.valueOf(letter), col * Board.SQUARE_SIZE + Board.HALF_SQUARE_SIZE, 815);
+
+        }
+
+        // Dessiner les numéros (1-8) à gauche et à droite du plateau
+        for (int row = 0; row < 8; row++) {
+            int number = 8 - row;
+            g2.drawString(String.valueOf(number), 810, row * Board.SQUARE_SIZE + Board.HALF_SQUARE_SIZE);
         }
     }
 

@@ -1,7 +1,6 @@
 package Piece;
-import Main.Board;
-import Main.GamePanel;
-import Main.Type;
+import Logic.Game;
+import Panel.Board;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public class King extends Piece {
         type = Type.KING;
 
         if (isImage) {
-            if (color == GamePanel.WHITE) {
+            if (color == Game.WHITE) {
                 image = getImage("/Piece/w-king");
             } else {
                 image = getImage("/Piece/b-king");
@@ -21,19 +20,23 @@ public class King extends Piece {
         }
     }
 
-    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow, boolean verifyLegal) {
         if (Board.isWithinBoard(targetCol, targetRow) ) {
             if (Math.abs(targetCol - preCol) + Math.abs(targetRow - preRow) == 1 || //se deplace en carré
                     Math.abs(targetCol - preCol) * Math.abs(targetRow - preRow) == 1)  //se deplace en diagonale
             {
                 if (isValidSquare(pieces, targetCol, targetRow)) {
-                    return isLegalMove(pieces, targetCol, targetRow);
+                    if (verifyLegal) {
+                        return isLegalMove(pieces, targetCol, targetRow);
+                    } else {
+                        return true;
+                    }
                 }
             }
 
             // Castling
             if(!this.moved && targetRow == preRow &&
-                    !pieceIsOnStraightLine(pieces, targetCol, targetRow) &&
+                    !isPieceOnStraightLine(pieces, targetCol, targetRow) &&
                     (targetCol == preCol + 2 || targetCol == preCol - 2)) {
                 Piece rook;
                 if (targetCol == preCol + 2) {
@@ -43,9 +46,13 @@ public class King extends Piece {
                     rook = getHittingP(pieces, 0, targetRow);
                 }
                 if (rook != null && !rook.moved) {
-                    if (!Move.isKingInCheck(pieces, this.color)) {
-                        return isLegalMove(pieces, preCol + (targetCol-this.preCol)/2, targetRow) &&
-                                isLegalMove(pieces, targetCol, targetRow);
+                    if (!Game.isKingInCheck(pieces, this.color, true)) {
+                        if (verifyLegal) {
+                            return isLegalMove(pieces, preCol + (targetCol-this.preCol)/2, targetRow) &&
+                                    isLegalMove(pieces, targetCol, targetRow);
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }

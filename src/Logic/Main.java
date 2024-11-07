@@ -1,11 +1,11 @@
-package Main;
+package Logic;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         JFrame window = new JFrame("Echec");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -20,5 +20,5 @@ public class Main {
         window.setVisible(true);
 
         gp.launchGame();
-    }
+    }*/
 }

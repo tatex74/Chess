@@ -1,8 +1,7 @@
 package Computer;
 
-import Main.GamePanel;
 import Piece.Piece;
-import Main.Type;
+import Piece.Type;
 
 import java.util.ArrayList;
 

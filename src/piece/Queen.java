@@ -1,7 +1,6 @@
 package Piece;
-import Main.Board;
-import Main.GamePanel;
-import Main.Type;
+import Logic.Game;
+import Panel.Board;
 
 import java.util.ArrayList;
 
@@ -13,23 +12,31 @@ public class Queen extends Piece {
         type = Type.QUEEN;
 
         if (isImage) {
-            if (color == GamePanel.WHITE) {
+            if (color == Game.WHITE) {
                 image = getImage("/Piece/w-queen");
             } else {
                 image = getImage("/Piece/b-queen");
             }
         }
     }
-    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow) {
+    public boolean canMove(ArrayList<Piece> pieces, int targetCol, int targetRow, boolean verifyLegal) {
         if (Board.isWithinBoard(targetCol, targetRow) && !isSameSquare(targetCol, targetRow)) {
             if (targetCol == preCol || targetRow == preRow) {
-                if (isValidSquare(pieces, targetCol, targetRow) && !pieceIsOnStraightLine(pieces, targetCol, targetRow)) {
-                    return isLegalMove(pieces, targetCol, targetRow);
+                if (isValidSquare(pieces, targetCol, targetRow) && !isPieceOnStraightLine(pieces, targetCol, targetRow)) {
+                    if (verifyLegal) {
+                        return isLegalMove(pieces, targetCol, targetRow);
+                    } else {
+                        return true;
+                    }
                 }
             }
             if (Math.abs(targetCol - preCol) == Math.abs(targetRow - preRow)) {
-                if (isValidSquare(pieces, targetCol, targetRow) && !pieceIsOnDiagonalLine(pieces, targetCol, targetRow)) {
-                    return isLegalMove(pieces, targetCol, targetRow);
+                if (isValidSquare(pieces, targetCol, targetRow) && !isPieceOnDiagonalLine(pieces, targetCol, targetRow)) {
+                    if (verifyLegal) {
+                        return isLegalMove(pieces, targetCol, targetRow);
+                    } else {
+                        return true;
+                    }
                 }
             }
         }

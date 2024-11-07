@@ -1,6 +1,7 @@
 package Piece;
 
-import Main.Type;
+import Logic.Game;
+import Panel.GamePanel;
 
 import java.util.ArrayList;
 
@@ -32,15 +33,67 @@ public class Move {
 
         for (int c = 0 ; c < 8 ; c++) {
             for (int r = 0 ; r < 8 ; r++) {
-                if (piece.canMove(pieces, r, c)) {
+                if (piece.canMove(pieces, r, c, true)) {
                     possibleMove.add(new Move(piece.preCol, piece.preRow, r, c));
                 }
             }
         }
 
-        System.out.println(possibleMove);
-
         return possibleMove;
+    }
+
+    public static boolean makeMove(ArrayList<Piece> pieces, Move move) {
+        Piece piece = Piece.getPieceByCoord(pieces, move.col, move.row);
+        if (piece == null) return false;
+
+        Piece hittingP = Piece.getPieceByCoord(pieces, move.targetCol, move.targetRow);
+        // eating piece
+        if (hittingP != null) {
+            pieces.remove(hittingP);
+        }
+
+        // normal move
+        piece.col = move.targetCol;
+        piece.row = move.targetRow;
+
+        if (piece.type == Type.PAWN) {
+            if (Math.abs(piece.row - piece.preRow) == 2) {
+                piece.twoStepped = true;
+            }
+        }
+
+        piece.x = piece.getX(piece.col);
+        piece.y = piece.getY(piece.row);
+        piece.preCol = piece.col;
+        piece.preRow = piece.row;
+        piece.moved = true;
+
+        // castling
+        if (piece.type == Type.KING) {
+            Piece rook = null;
+            if (move.targetCol == move.col + 2) {
+                rook = Piece.getPieceByCoord(pieces, 7, move.targetRow);
+                rook.col = 5;
+                rook.preCol = 5;
+                rook.moved = true;
+            } else if (move.targetCol == move.col - 2) {
+                rook = Piece.getPieceByCoord(pieces, 0, move.targetRow);
+                rook.col = 3;
+                rook.preCol = 3;
+                rook.moved = true;
+            }
+        }
+
+        // promoting
+        if (piece.type == Type.PAWN) {
+            if (piece.color == Game.WHITE && piece.preRow == 0 || piece.color == Game.BLACK && piece.preRow == 7) {
+                // The Computer always choose a queen even if in some case (very thin) choosing a knight can be better
+                pieces.add(new Queen(piece.preCol, piece.preRow, piece.color, true));
+                pieces.remove(piece);
+            }
+        }
+
+        return true;
     }
 
     public static void recordMove(Piece piece, ArrayList<String> historizes, int oldCol, int oldRow, int newCol, int newRow) {
@@ -83,64 +136,4 @@ public class Move {
     public String toString() {
         return ("" + colToChessCol(col) + rowToChessRow(row) + " " + colToChessCol(targetCol) + rowToChessRow(targetRow));
     }
-
-    public static boolean isKingInCheck(ArrayList<Piece> listPieces, int color) // On regarde si le roi est en echec
-    {
-
-        Piece king = getKing(listPieces, color);
-        if (king == null) {
-            return false;
-        }
-
-        for (Piece piece : listPieces) {
-            if (piece.color != color) {
-                if (piece.canMove(listPieces, king.preCol, king.preRow)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean isCheckmate(ArrayList<Piece> pieces, int color) {
-        if (isKingInCheck(pieces, color)) {
-            for (Piece piece : pieces) {
-                if (piece.color == color && !listAllPieceMove(pieces, piece).isEmpty()) {
-                    return false;
-                }
-            }
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    public static boolean isStalemate(ArrayList<Piece> pieces, int color) //verification si c'est pat
-    {
-        if (!isKingInCheck(pieces, color)) {
-            for (Piece piece : pieces) {
-                if (piece.color == color && !listAllPieceMove(pieces, piece).isEmpty()) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    public static Piece getKing(ArrayList<Piece> listPieces, int color) // on recupere le roi
-    {
-        for (Piece piece : listPieces) {
-            if (piece.type == Type.KING && piece.color == color) {
-                return piece;
-            }
-        }
-        return null;
-    }
-
 }
