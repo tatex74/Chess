@@ -10,7 +10,12 @@ public class TitlePanel extends JPanel {
     private final JButton playerVsComputerButton;
     private final JButton loadGameButton;
 
-
+    /**
+     * Constructs the title panel with buttons for selecting game modes and loading a saved game.
+     * Sets up button positions, background color, and initializes action listeners.
+     *
+     * @param panelManager The PanelManager instance that handles panel transitions.
+     */
     public TitlePanel(PanelManager panelManager) {
 
         setSize(PanelManager.WIDTH, PanelManager.HEIGHT);
@@ -33,6 +38,12 @@ public class TitlePanel extends JPanel {
         setActionListener(panelManager);
     }
 
+    /**
+     * Paints the title and customizes the graphical settings, including
+     * font properties, to render the main title text.
+     *
+     * @param g The Graphics object used to draw on the panel.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -44,6 +55,12 @@ public class TitlePanel extends JPanel {
         g2.drawString("Echec", 690, 200);
     }
 
+    /**
+     * Sets action listeners for the buttons, defining actions for starting a player vs. player game,
+     * a player vs. computer game, or loading a previously saved game.
+     *
+     * @param panelManager The PanelManager instance that facilitates panel transitions.
+     */
     public void setActionListener(PanelManager panelManager) {
         playerVsPlayerButton.addActionListener(_ -> panelManager.launchGame(Game.PLAYERVSPLAYER));
         playerVsComputerButton.addActionListener(_ -> panelManager.launchGame(Game.PLAYERVSCOMPUTER));

@@ -29,7 +29,12 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
     Mouse mouse;
     Game game;
 
-
+    /**
+     * Initializes the game panel, sets up buttons, layout, and starts the game thread.
+     *
+     * @param panelManager The panel manager responsible for handling panel transitions.
+     * @param gameMode     The mode of the game (e.g., player vs. player).
+     */
     public GamePanel(PanelManager panelManager, int gameMode) {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(PanelManager.backGroundColor);
@@ -73,6 +78,10 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         saveButton.addActionListener(_ -> Save.saveGame(game));
     }
 
+    /**
+     * The main game loop method. This method updates the game state and repaints
+     * the panel approximately every 1/60th of a second, controlling the refresh rate.
+     */
     @Override
     public void run() {
         // GAME LOOP upadate et repaint tout les 1/60 seconds
@@ -94,6 +103,13 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         }
     }
 
+    /**
+     * Paints the game components on the panel, including the board, pieces,
+     * game status, move history, and other visual elements such as promotion
+     * options or endgame messages.
+     *
+     * @param g The Graphics object used to draw on the panel.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -101,6 +117,8 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
 
         //Dessine le plateau
         board.draw(g2);
+
+        currentPlayer = (game.currentColor == Game.WHITE) ? WHITE : BLACK;
 
         //Dessine les pieces
         for (Piece p : game.simPieces) {
@@ -177,17 +195,8 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
                         Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
 
             }
-        } else {
-            if (game.currentColor == Game.WHITE) {
-                if (game.checkingP != null && game.checkingP.color == Game.BLACK) { // si echec l'afficher
-                    status = currentPlayer + " est en echec";
-                }
-            } else {
-                if (game.checkingP != null && game.checkingP.color == Game.WHITE) { // si echec l'afficher
-                    status = currentPlayer + " est en echec";
-                }
-            }
         }
+
         if (game.checkmate || game.stalemate || game.ff || game.timeout) {
             g2.setColor(Color.RED);
             g2.setFont(new Font("Arial", Font.BOLD, 50));
@@ -214,7 +223,6 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
                 }
 
             }
-            titleScreenButton.setVisible(true);
         }
     }
 }

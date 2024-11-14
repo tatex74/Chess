@@ -10,6 +10,12 @@ public class Button extends JButton {
     private Color hoverColor = new Color(100, 149, 237);  // Bleu clair
     private Color pressedColor = new Color(65, 105, 225); // Bleu foncé
 
+    /**
+     * Constructs a custom-styled button with rounded corners, specific color states,
+     * and a hover/pressed color effect.
+     *
+     * @param text The label text displayed on the button.
+     */
     public Button(String text) {
         super(text);
         setFocusPainted(false);
@@ -43,6 +49,12 @@ public class Button extends JButton {
         });
     }
 
+    /**
+     * Paints the button component with rounded corners and the background color
+     * defined by the button’s current state (default, hover, or pressed).
+     *
+     * @param g The Graphics object used to render the button.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         // Dessiner un bouton arrondi avec la couleur de fond définie
@@ -53,6 +65,13 @@ public class Button extends JButton {
         super.paintComponent(g);
     }
 
+    /**
+     * Overrides the default setContentAreaFilled method to prevent filling
+     * the button background with the default look and feel, allowing for custom
+     * background colors.
+     *
+     * @param b Ignored to maintain custom styling.
+     */
     @Override
     public void setContentAreaFilled(boolean b) {
         // Ne rien faire ici pour garder l'arrière-plan personnalisé

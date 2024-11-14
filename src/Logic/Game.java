@@ -43,6 +43,9 @@ public class Game {
         timers = new GameTimers(gameDuration);
     }
 
+    /**
+     * Initializes a new game with a player vs player mode.
+     */
     public void startPlayerVsPlayer() {
         gameMode = PLAYERVSPLAYER;
         checkmate = false;
@@ -57,6 +60,9 @@ public class Game {
         timers.invertTimer(currentColor);
     }
 
+    /**
+     * Initializes a new game with a player vs computer mode.
+     */
     private void startPlayerVsComputer() {
         gameMode = PLAYERVSCOMPUTER;
         checkmate = false;
@@ -70,6 +76,9 @@ public class Game {
         copyPieces(pieces, simPieces);
     }
 
+    /**
+     * Loads the game from a saved state.
+     */
     private void loadGame() {
         Save.loadSave(this);
 
@@ -79,6 +88,11 @@ public class Game {
         }
     }
 
+    /**
+     * Launches the game with the specified mode (player vs player, player vs computer, or load game).
+     *
+     * @param gameMode The game mode to start (0 = player vs player, 1 = player vs computer, 2 = load game).
+     */
     public void launchGame(int gameMode) {
         switch (gameMode) {
             case PLAYERVSPLAYER -> startPlayerVsPlayer();
@@ -87,6 +101,9 @@ public class Game {
         }
     }
 
+    /**
+     * Sets up the pieces on the board at the start of the game.
+     */
     public void setPieces() {
         pieces.add(new Rook(0, 0, Game.BLACK, true));
         pieces.add(new Knight(1, 0, Game.BLACK, true));
@@ -115,7 +132,11 @@ public class Game {
         gamePanel.repaint();
     }
 
-
+    /**
+     * Updates the game state based on the mouse input. Handles player and computer moves.
+     *
+     * @param mouse The mouse input object representing the current mouse position.
+     */
     public void update(Mouse mouse) {
         this.mouse = mouse;
 
@@ -127,6 +148,8 @@ public class Game {
                 Move.makeMove(pieces, AIMove);
                 Move.recordMove(Piece.getPieceByCoord(pieces, AIMove.targetCol, AIMove.targetRow), Historizes,
                         AIMove.col, AIMove.row, AIMove.targetCol, AIMove.targetRow);
+                checkmate = isCheckmate(pieces, changeColor(currentColor));
+                stalemate = isStalemate(pieces, changeColor(currentColor));
                 changePlayer();
             }
         } else {
@@ -134,6 +157,9 @@ public class Game {
         }
     }
 
+    /**
+     * Handles mouse events when a piece is being dragged and moved.
+     */
     public void mouseEventOnPiece() {
         if (promotion) {
             promoting();// on promouvoit le pion
@@ -185,7 +211,9 @@ public class Game {
         }
     }
 
-
+    /**
+     * Simulates the movement of the currently selected piece based on the mouse position.
+     */
     private void simulate() {
         canMove = false;
         //si la piece est tenue, update la position de la piece
@@ -227,6 +255,9 @@ public class Game {
         }
     }
 
+    /**
+     * Switches the turn to the next player.
+     */
     private void changePlayer() {
         if (currentColor == WHITE) {
             currentColor = BLACK;
@@ -253,6 +284,11 @@ public class Game {
         activeP = null;
     }
 
+    /**
+     * Checks if a pawn has reached the opposite side of the board and can be promoted.
+     *
+     * @return True if the pawn can be promoted, false otherwise.
+     */
     private boolean canPromote() { //la promotion du pion
         if (activeP.type == Type.PAWN) {
             if (currentColor == Game.WHITE && activeP.row == 0 || activeP.color == BLACK && activeP.row == 7) {
@@ -267,6 +303,9 @@ public class Game {
         return false;
     }
 
+    /**
+     * Handles the pawn promotion process, allowing the player to choose a new piece.
+     */
     private void promoting() { //la promotion
         timers.stopTimers();
 
@@ -304,6 +343,9 @@ public class Game {
         }
     }
 
+    /**
+     * Resets the game to its initial state.
+     */
     public void resetGame() {
         pieces.clear();
         simPieces.clear();
@@ -323,10 +365,21 @@ public class Game {
         timers.invertTimer(currentColor);
     }
 
+    /**
+     * Abandons the game and ends the current session.
+     */
     public void abandonGame() {
         ff = true;
     }
 
+    /**
+     * Checks if the king of the specified color is in check.
+     *
+     * @param listPieces The list of all pieces on the board.
+     * @param color The color of the player to check (WHITE or BLACK).
+     * @param verifyLegal A flag indicating whether to verify if the move is legal.
+     * @return True if the king is in check, false otherwise.
+     */
     public static boolean isKingInCheck(ArrayList<Piece> listPieces, int color, boolean verifyLegal) // On regarde si le roi est en echec
     {
         Piece king = getKing(listPieces, color);
@@ -345,6 +398,13 @@ public class Game {
         return false;
     }
 
+    /**
+     * Checks if the specified color's king is in checkmate.
+     *
+     * @param pieces The list of all pieces on the board.
+     * @param color The color of the player to check (WHITE or BLACK).
+     * @return True if the king is in checkmate, false otherwise.
+     */
     public static boolean isCheckmate(ArrayList<Piece> pieces, int color) {
         if (isKingInCheck(pieces, color, true)) {
             for (Piece piece : pieces) {
@@ -358,6 +418,13 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if the specified color's king is in stalemate.
+     *
+     * @param pieces The list of all pieces on the board.
+     * @param color The color of the player to check (WHITE or BLACK).
+     * @return True if the king is in stalemate, false otherwise.
+     */
     public static boolean isStalemate(ArrayList<Piece> pieces, int color) //verification si c'est pat
     {
         if (!isKingInCheck(pieces, color, true)) {
@@ -372,11 +439,24 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if the game is over, either by checkmate or stalemate for both players.
+     *
+     * @param pieces The list of all pieces on the board.
+     * @return True if the game is over, false otherwise.
+     */
     public static boolean isGameOver(ArrayList<Piece> pieces) {
         return isCheckmate(pieces, WHITE) && isCheckmate(pieces, BLACK) &&
                 isStalemate(pieces, WHITE) && isStalemate(pieces, BLACK);
     }
 
+    /**
+     * Retrieves the king of the specified color from the list of pieces.
+     *
+     * @param listPieces The list of all pieces on the board.
+     * @param color The color of the king to retrieve (WHITE or BLACK).
+     * @return The king piece, or null if no king is found.
+     */
     public static Piece getKing(ArrayList<Piece> listPieces, int color) // on recupere le roi
     {
         for (Piece piece : listPieces) {
@@ -387,6 +467,12 @@ public class Game {
         return null;
     }
 
+    /**
+     * Changes the color.
+     *
+     * @param color color (WHITE or BLACK).
+     * @return The opposite color (BLACK or WHITE).
+     */
     public static int changeColor(int color) {
         if (color == WHITE) {
             return BLACK;
@@ -395,6 +481,12 @@ public class Game {
         }
     }
 
+    /**
+     * Copies the list of pieces from the source to the target list.
+     *
+     * @param source The list of pieces to copy from.
+     * @param target The list to copy the pieces to.
+     */
     private void copyPieces(ArrayList<Piece> source, ArrayList<Piece> target) {
         target.clear();
         target.addAll(source);

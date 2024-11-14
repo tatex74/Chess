@@ -13,6 +13,14 @@ import java.io.IOException;
 
 public class Save {
 
+    /**
+     * Saves the current state of the game to a JSON file.
+     * It includes the current turn, game mode, time remaining for both players,
+     * the state of the game (stalemate, promotion), pieces, simulated pieces, and move history.
+     * Opens a file chooser dialog for the user to specify where to save the game.
+     *
+     * @param game The current game instance to save.
+     */
     public static void saveGame(Game game) {
         // Création du fichier JSON avec les données du jeu
         JSONObject jsonObject = new JSONObject();
@@ -67,6 +75,13 @@ public class Save {
         }
     }
 
+    /**
+     * Loads a saved game from a JSON file and restores its state.
+     * The file content is validated to ensure it contains the correct game data.
+     * Opens a file chooser dialog for the user to select the saved game file.
+     *
+     * @param game The game instance to load the saved data into.
+     */
     public static void loadSave(Game game) {
 
         // Ouvrir un explorateur de fichiers pour sélectionner le fichier de sauvegarde
@@ -134,6 +149,12 @@ public class Save {
         }
     }
 
+    /**
+     * Validates the structure and content of a JSON object to ensure it represents a valid chess game save.
+     *
+     * @param jsonObject The JSON object to validate.
+     * @return True if the JSON object represents a valid chess game save, false otherwise.
+     */
     private static boolean isValidChessSave(JSONObject jsonObject) {
         try {
             // Vérification des clés principales et de leur type attendu

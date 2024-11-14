@@ -9,6 +9,14 @@ public class Move {
     public int col, row;
     public int targetCol, targetRow;
 
+    /**
+     * Constructs a move with a starting position and a target position.
+     *
+     * @param col        The starting column of the piece.
+     * @param startY     The starting row of the piece.
+     * @param targetCol  The target column of the piece.
+     * @param targetRow  The target row of the piece.
+     */
     public Move(int col, int startY, int targetCol, int targetRow) {
         this.col = col;
         this.row = startY;
@@ -16,6 +24,15 @@ public class Move {
         this.targetRow = targetRow;
     }
 
+
+    /**
+     * Generates a list of all legal moves for a player based on the pieces on the board.
+     * Only pieces of the given color are considered.
+     *
+     * @param pieces A list of all pieces on the board.
+     * @param color  The color of the player for whom to generate legal moves (e.g., Game.WHITE or Game.BLACK).
+     * @return A list of all legal moves for the given player.
+     */
     public static ArrayList<Move> generateLegalMoves(ArrayList<Piece> pieces, int color) {
         ArrayList<Move> moves = new ArrayList<>();
 
@@ -28,6 +45,13 @@ public class Move {
         return moves;
     }
 
+    /**
+     * Lists all possible moves for a given piece.
+     *
+     * @param pieces A list of all pieces on the board.
+     * @param piece  The piece for which to list possible moves.
+     * @return A list of all possible moves for the given piece.
+     */
     public static ArrayList<Move> listAllPieceMove(ArrayList<Piece> pieces, Piece piece) {
         ArrayList<Move> possibleMove = new ArrayList<>();
 
@@ -42,6 +66,14 @@ public class Move {
         return possibleMove;
     }
 
+    /**
+     * Executes a move by updating the board state.
+     * This method moves a piece from its starting position to the target position.
+     *
+     * @param pieces A list of all pieces on the board.
+     * @param move   The move to be executed.
+     * @return True if the move was successful; false otherwise.
+     */
     public static boolean makeMove(ArrayList<Piece> pieces, Move move) {
         Piece piece = Piece.getPieceByCoord(pieces, move.col, move.row);
         if (piece == null) return false;
@@ -49,7 +81,7 @@ public class Move {
         Piece hittingP = Piece.getPieceByCoord(pieces, move.targetCol, move.targetRow);
         // eating piece
         if (hittingP != null) {
-            pieces.remove(hittingP);
+            pieces.remove(hittingP.getIndex(pieces));
         }
 
         // normal move
@@ -89,13 +121,23 @@ public class Move {
             if (piece.color == Game.WHITE && piece.preRow == 0 || piece.color == Game.BLACK && piece.preRow == 7) {
                 // The Computer always choose a queen even if in some case (very thin) choosing a knight can be better
                 pieces.add(new Queen(piece.preCol, piece.preRow, piece.color, true));
-                pieces.remove(piece);
+                pieces.remove(piece.getIndex(pieces));
             }
         }
 
         return true;
     }
 
+    /**
+     * Records a move for the purpose of logging or undo functionality.
+     *
+     * @param piece     The piece being moved.
+     * @param historizes A list of move history.
+     * @param oldCol    The starting column of the move.
+     * @param oldRow    The starting row of the move.
+     * @param newCol    The target column of the move.
+     * @param newRow    The target row of the move.
+     */
     public static void recordMove(Piece piece, ArrayList<String> historizes, int oldCol, int oldRow, int newCol, int newRow) {
         char oldChessCol = colToChessCol(oldCol);
         char newChessCol = colToChessCol(newCol);
@@ -105,6 +147,12 @@ public class Move {
         historizes.add(piece.getName() + " de (" + oldChessCol + ", " + oldChessRow + ") à (" + newChessCol + ", " + newChessRow + ")");
     }
 
+    /**
+     * Converts a column index to its corresponding chess notation character (a-h).
+     *
+     * @param col The column index (0-7).
+     * @return The corresponding chess column notation ('a'-'h').
+     */
     public static char colToChessCol(int col) {
         return switch (col) {
             case 0 -> 'a';
@@ -119,6 +167,12 @@ public class Move {
         };
     }
 
+    /**
+     * Converts a row index to its corresponding chess notation character (1-8).
+     *
+     * @param row The row index (0-7).
+     * @return The corresponding chess row notation ('1'-'8').
+     */
     public static char rowToChessRow(int row) {
         return switch (row) {
             case 0 -> '8';
@@ -133,6 +187,11 @@ public class Move {
         };
     }
 
+    /**
+     * Returns a string representation of the move in chess notation (e.g., "e2 e4").
+     *
+     * @return The string representation of the move in chess notation.
+     */
     public String toString() {
         return ("" + colToChessCol(col) + rowToChessRow(row) + " " + colToChessCol(targetCol) + rowToChessRow(targetRow));
     }
