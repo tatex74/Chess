@@ -1,12 +1,13 @@
 package Panel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PanelManager {
     public static final int WIDTH = 1500;
     public static final int HEIGHT = 870;
-    Frame frame;
+    JFrame frame;
     TitlePanel titlePanel;
     GamePanel gamePanel;
 
@@ -26,10 +27,17 @@ public class PanelManager {
      * Constructs the PanelManager, initializes the main frame, and sets the title panel as the default view.
      */
     public PanelManager() {
-        frame = new Frame();
+        frame = new JFrame("CHESS");
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/chess.png"));
+        frame.setIconImage(icon.getImage());
+
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
         titlePanel = new TitlePanel(this);
         frame.setContentPane(titlePanel);
-        frame.setSize(WIDTH, HEIGHT);
     }
 
     /**
