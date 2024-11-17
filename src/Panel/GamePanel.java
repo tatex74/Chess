@@ -174,6 +174,7 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         {
             status = "Promotion de " + currentPlayer;
             for (Piece piece : game.promotionPieces) {
+
                 g2.drawImage(piece.image, piece.getX(piece.col), piece.getY(piece.row),
                         Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
 

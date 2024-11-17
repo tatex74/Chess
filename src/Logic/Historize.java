@@ -1,4 +1,4 @@
-package Panel;
+package Logic;
 
 import java.util.ArrayList;
 import Piece.Move;

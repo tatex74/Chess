@@ -3,7 +3,6 @@ package Logic;
 import Computer.Minimax;
 import Panel.Board;
 import Panel.GamePanel;
-import Panel.Historize;
 import Piece.*;
 
 import java.util.ArrayList;
@@ -198,10 +197,9 @@ public class Game {
                         if (canPromote()) {
                             promotion = true;
                         } else {
+                            activeP = null;
                             changePlayer();
                         }
-
-                        activeP = null;
                     } else {
                         //mouvement annulé alors on reset
                         copyPieces(pieces, simPieces);
@@ -309,6 +307,7 @@ public class Game {
      */
     private void promoting() { //la promotion
         timers.stopTimers();
+        System.out.println("test");
 
         if (mouse.pressed) {
             for (Piece piece : promotionPieces) {
@@ -330,7 +329,6 @@ public class Game {
                             break;
                         default:
                             break;
-
                     }
                     simPieces.remove(activeP.getIndex(simPieces)); // on enleve le pion
                     copyPieces(simPieces, pieces);
