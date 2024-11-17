@@ -3,6 +3,7 @@ package Logic;
 import Computer.Minimax;
 import Panel.Board;
 import Panel.GamePanel;
+import Panel.Historize;
 import Piece.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class Game {
     public ArrayList<Piece> pieces = new ArrayList<>();
     public ArrayList<Piece> simPieces = new ArrayList<>();
-    public ArrayList<String> Historizes = new ArrayList<>();
+    public Historize historize = new Historize();
     public ArrayList<Piece> promotionPieces = new ArrayList<>();
     public Piece activeP, checkingP;
     public static Piece castlingP;
@@ -144,12 +145,13 @@ public class Game {
             if (currentColor == WHITE) {
                 mouseEventOnPiece();
             } else {
-                Move AIMove = Minimax.findBestMove(pieces, BLACK);
-                Move.makeMove(pieces, AIMove);
-                Move.recordMove(Piece.getPieceByCoord(pieces, AIMove.targetCol, AIMove.targetRow), Historizes,
+                Move AIMove = Minimax.findBestMove(simPieces, BLACK);
+                Move.makeMove(simPieces, AIMove);
+                historize.recordMove(Piece.getPieceByCoord(simPieces, AIMove.targetCol, AIMove.targetRow),
                         AIMove.col, AIMove.row, AIMove.targetCol, AIMove.targetRow);
-                checkmate = isCheckmate(pieces, changeColor(currentColor));
-                stalemate = isStalemate(pieces, changeColor(currentColor));
+                checkmate = isCheckmate(simPieces, changeColor(currentColor));
+                stalemate = isStalemate(simPieces, changeColor(currentColor));
+                copyPieces(simPieces, pieces);
                 changePlayer();
             }
         } else {
@@ -183,7 +185,7 @@ public class Game {
             if (!mouse.pressed) {
                 if (activeP != null) {
                     if (canMove) {
-                        Move.recordMove(activeP, Historizes, activeP.preCol, activeP.preRow, activeP.col, activeP.row);
+                        historize.recordMove(activeP, activeP.preCol, activeP.preRow, activeP.col, activeP.row);
                         copyPieces(simPieces, pieces);
                         activeP.updatePosition();
                         if (castlingP != null) {
@@ -251,7 +253,6 @@ public class Game {
             if (activeP.hittingP != null) {
                 simPieces.remove(activeP.hittingP.getIndex(simPieces));
             }
-
         }
     }
 
@@ -360,7 +361,7 @@ public class Game {
         activeP = null;
         checkingP = null;
         castlingP = null;
-        Historizes.clear();
+        historize.clear();
         timers.resetTimers(gameDuration);
         timers.invertTimer(currentColor);
     }

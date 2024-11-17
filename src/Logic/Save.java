@@ -44,7 +44,7 @@ public class Save {
         jsonObject.put("simPieces", jsonSimPieces);
 
         JSONArray jsonHistorize = new JSONArray();
-        for (String move : game.Historizes) {
+        for (String move : game.historize) {
             jsonHistorize.put(move);
         }
         jsonObject.put("historize", jsonHistorize);
@@ -134,9 +134,9 @@ public class Save {
 
                     // Charger l'historique des mouvements
                     JSONArray jsonHistorize = jsonObject.getJSONArray("historize");
-                    game.Historizes.clear();
+                    game.historize.clear();
                     for (int j = 0; j < jsonHistorize.length(); j++) {
-                        game.Historizes.add(jsonHistorize.getString(j));
+                        game.historize.add(jsonHistorize.getString(j));
                     }
 
                 } else {

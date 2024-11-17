@@ -128,24 +128,6 @@ public class Move {
         return true;
     }
 
-    /**
-     * Records a move for the purpose of logging or undo functionality.
-     *
-     * @param piece     The piece being moved.
-     * @param historizes A list of move history.
-     * @param oldCol    The starting column of the move.
-     * @param oldRow    The starting row of the move.
-     * @param newCol    The target column of the move.
-     * @param newRow    The target row of the move.
-     */
-    public static void recordMove(Piece piece, ArrayList<String> historizes, int oldCol, int oldRow, int newCol, int newRow) {
-        char oldChessCol = colToChessCol(oldCol);
-        char newChessCol = colToChessCol(newCol);
-        char oldChessRow = rowToChessRow(oldRow);
-        char newChessRow = rowToChessRow(newRow);
-
-        historizes.add(piece.getName() + " de (" + oldChessCol + ", " + oldChessRow + ") à (" + newChessCol + ", " + newChessRow + ")");
-    }
 
     /**
      * Converts a column index to its corresponding chess notation character (a-h).

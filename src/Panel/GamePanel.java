@@ -18,6 +18,8 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
 
     private boolean repaintTeam = false;
 
+    private HistorizePanel historizePanel;
+
     //boutons
     private final JButton abandonButton;
     private final JButton titleScreenButton;
@@ -43,6 +45,10 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         titleScreenButton = new Button("Retour à l'écran titre");
         resetButton = new Button("Réinitialiser la partie");
         saveButton = new Button("Sauvegarder la partie");
+
+        historizePanel = new HistorizePanel();
+        historizePanel.setBounds(840, 200, HistorizePanel.WIDTH ,HistorizePanel.HEIGHT);
+        add(historizePanel);
 
         // Positionner les boutons
         abandonButton.setBounds(1200, 600, 200, 40);
@@ -122,30 +128,17 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         for (Piece p : game.simPieces) {
             p.draw(g2);
         }
+
         // Dessiner les informations de jeu
-        int tour = 1;
         g2.setFont(new Font("Arial", Font.BOLD, 20));
         g2.setColor(Color.WHITE);
         g2.drawString("Tour actuel : " + currentPlayer, 840, 50);
         g2.drawString("Statut : " + status, 840, 100);
-        g2.drawString("Historique :", 840, 140);
-        g2.setFont(new Font("Arial", Font.PLAIN, 10));
-        g2.drawString("Blanc :", 860, 170);
-        g2.drawString("Noir : ", 980, 170);
 
-        for (int i = 0; i < game.Historizes.size(); i++) {
-            if (tour % 46 == 0) {
-                g2.setColor(Color.BLACK);
-                g2.clearRect(820, 180, 200, 800);
-            }
-            int displayIndex = i % 70; // Retourner à la première ligne après 30 tours
-            if (i % 2 == 0) {
-                g2.drawString(String.valueOf(tour), 840, 200 + displayIndex * 7);
-                g2.drawString(game.Historizes.get(i), 860, 200 + displayIndex * 7);
-            } else {
-                g2.drawString(game.Historizes.get(i), 980, 200 + displayIndex * 7 - 7);
-                tour++;
-            }
+        if (historizePanel.nbMove < game.historize.size()) {
+            historizePanel.addMove(game.historize.getLast());
+        } else if (historizePanel.nbMove > game.historize.size()) {
+            historizePanel.clearPanel();
         }
 
         //Timer
@@ -170,14 +163,6 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
             }
             game.activeP.draw(g2);
         }
-
-        if (game.gameMode == Game.PLAYERVSPLAYER && repaintTeam) {
-            for (Piece piece : game.pieces) {
-                piece.draw(g2);
-            }
-            repaintTeam = false;
-        }
-
 
         //status message
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
