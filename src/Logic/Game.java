@@ -156,6 +156,7 @@ public class Game {
         } else {
             mouseEventOnPiece();
         }
+
     }
 
     /**
@@ -307,7 +308,6 @@ public class Game {
      */
     private void promoting() { //la promotion
         timers.stopTimers();
-        System.out.println("test");
 
         if (mouse.pressed) {
             for (Piece piece : promotionPieces) {
@@ -381,15 +381,20 @@ public class Game {
      */
     public static boolean isKingInCheck(ArrayList<Piece> listPieces, int color, boolean verifyLegal) // On regarde si le roi est en echec
     {
+
+
         Piece king = getKing(listPieces, color);
         if (king == null) {
             return false;
+
+
         }
 
         for (Piece piece : listPieces) {
             if (piece.color != color) {
                 if (piece.canMove(listPieces, king.preCol, king.preRow, verifyLegal)) {
                     return true;
+
                 }
             }
         }

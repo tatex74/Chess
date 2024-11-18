@@ -12,7 +12,7 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
     private Thread gameThread;
     private Board board;
     private final String WHITE = "Blanc";
-    private final String BLACK = "Black";
+    private final String BLACK = "Noir";
     private String status = "En cours";
     private String currentPlayer;
 
@@ -135,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         g2.drawString("Tour actuel : " + currentPlayer, 840, 50);
         g2.drawString("Statut : " + status, 840, 100);
 
+
         if (historizePanel.nbMove < game.historize.size()) {
             historizePanel.addMove(game.historize.getLast());
         } else if (historizePanel.nbMove > game.historize.size()) {
@@ -168,7 +169,13 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(new Font("Book Antiqua", Font.PLAIN, 20));
         g2.setColor(Color.white);
+        status = "En cours";
 
+        if (game.isKingInCheck(game.simPieces, game.currentColor, true)) {
+            g2.setColor(Color.RED);
+            g2.setFont(new Font("Arial", Font.BOLD, 20));
+            g2.drawString("Echec", 840, 150);
+        }
 
         if (game.promotion)//affichage promotion
         {
@@ -186,9 +193,9 @@ public class GamePanel extends JPanel implements Runnable { //La classe GamePane
             g2.setFont(new Font("Arial", Font.BOLD, 50));
             if (game.checkmate) {
                 if (game.currentColor == Game.WHITE) {
-                    status = "VICTOIRE BLANC";
-                } else {
                     status = "VICTOIRE NOIR";
+                } else {
+                    status = "VICTOIRE BLANC";
                 }
                 g2.drawString("Echec et mat", 300, 400);
             } else if (game.stalemate) {

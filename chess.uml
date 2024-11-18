@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/hadja/OneDrive/Documents/GitHub/Chess/src</OriginalElement>
+  <nodes>
+    <node x="279.7797705426357" y="412.69751408124034">Piece.Piece</node>
+    <node x="848.4174573643409" y="1983.0954666666667">Logic.Save</node>
+    <node x="490.2083100775196" y="146.5">Piece.Knight</node>
+    <node x="2136.8219906976747" y="1878.7140465116277">Computer.Minimax</node>
+    <node x="593.9587844961238" y="1983.0954666666667">Logic.GameTimers</node>
+    <node x="2175.447744496124" y="736.946195348837">Panel.HistorizePanel</node>
+    <node x="2408.7362075038754" y="504.71529905612374">Panel.HistorizePanel.CustomScrollBarUI</node>
+    <node x="278.5001116279069" y="1547.0414387596898">Piece.Move</node>
+    <node x="2182.3160310077524" y="1730.4043658914725">Computer.Evaluator</node>
+    <node x="2692.325547038759" y="723.446195348837">Panel.PanelManager</node>
+    <node x="1615.285841860465" y="722.6247627906976">Panel.Board</node>
+    <node x="197.27977054263562" y="-13.5">Piece.Pawn</node>
+    <node x="-302.16145417922485" y="173.53809578666664">Piece.Type</node>
+    <node x="748.3212651162789" y="1571.0414387596898">Logic.Score</node>
+    <node x="278.5001116279069" y="1983.0954666666667">Logic.Historize</node>
+    <node x="757.3212651162789" y="1385.0414387596898">Logic.Mouse</node>
+    <node x="-130.95856124030996" y="1532.8986294573644">Logic.Game</node>
+    <node x="-94.23214883720925" y="146.5">Piece.King</node>
+    <node x="1074.6487689922485" y="146.5">Piece.Bishop</node>
+    <node x="1750.285841860465" y="564.6974199863564">Panel.Button</node>
+    <node x="-404.16145417922473" y="-8.423933886511605">Piece.Queen</node>
+    <node x="780.2916341085272" y="-13.5">Piece.Rook</node>
+    <node x="2047.035841860465" y="591.6974199863564">Panel.Frame</node>
+    <node x="1901.035841860465" y="722.6247627906976">Panel.GamePanel</node>
+    <node x="2395.8596471317833" y="733.946195348837">Panel.TitlePanel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Panel.HistorizePanel" target="Panel.HistorizePanel.CustomScrollBarUI" relationship="CREATE">
+      <point x="45.75" y="-57.0" />
+      <point x="2312.697744496124" y="714.946195348837" />
+      <point x="2491.4920276589146" y="714.946195348837" />
+      <point x="2491.4920276589146" y="666.7152990561237" />
+      <point x="67.0" y="81.0" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Bishop" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="505.0" />
+      <point x="16.0" y="505.0" />
+      <point x="16.0" y="465.0" />
+      <point x="96.0" y="465.0" />
+      <point x="96.0" y="365.0" />
+      <point x="1170.1487689922485" y="365.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Panel.PanelManager" target="Panel.TitlePanel" relationship="TO_ONE">
+      <point x="-45.25" y="-69.0" />
+      <point x="2737.575547038759" y="2285.0" />
+      <point x="1596.0" y="2285.0" />
+      <point x="1596.0" y="2265.0" />
+      <point x="2519.3596471317833" y="2265.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="Piece.Queen" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="-58.5" />
+      <point x="-117.66145417922473" y="1505.0" />
+      <point x="483.7797705426357" y="1505.0" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Panel.HistorizePanel.CustomScrollBarUI" target="Panel.HistorizePanel" relationship="INNER_CLASS">
+      <point x="-67.0" y="81.0" />
+      <point x="2475.7362075038754" y="515.5" />
+      <point x="2357.4920276589146" y="515.5" />
+      <point x="2357.4920276589146" y="694.946195348837" />
+      <point x="2221.197744496124" y="694.946195348837" />
+      <point x="-45.75" y="-57.0" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Logic.Game" relationship="CREATE">
+      <point x="61.75" y="57.0" />
+      <point x="2086.285841860465" y="1852.0414387596898" />
+      <point x="160.04143875969004" y="1852.0414387596898" />
+      <point x="97.0" y="-273.0" />
+    </edge>
+    <edge source="Logic.Game" target="Logic.Mouse" relationship="TO_ONE">
+      <point x="-97.0" y="-273.0" />
+      <point x="-33.95856124030996" y="1945.0" />
+      <point x="996.0" y="1945.0" />
+      <point x="996.0" y="1825.0" />
+      <point x="1116.0" y="1825.0" />
+      <point x="1116.0" y="1452.0414387596898" />
+      <point x="1586.285841860465" y="1452.0414387596898" />
+      <point x="1586.285841860465" y="952.0414387596896" />
+      <point x="823.8212651162789" y="952.0414387596896" />
+      <point x="-66.5" y="81.0" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Type" relationship="TO_ONE">
+      <point x="136.0" y="-298.5" />
+      <point x="619.7797705426357" y="405.0" />
+      <point x="-213.16145417922485" y="405.0" />
+      <point x="0.0" y="57.0" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Panel.Board" relationship="TO_ONE">
+      <point x="-61.75" y="57.0" />
+      <point x="1962.785841860465" y="1652.0414387596898" />
+      <point x="1156.0" y="1652.0414387596898" />
+      <point x="1156.0" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="972.0414387596896" />
+      <point x="1674.535841860465" y="972.0414387596896" />
+      <point x="-59.25" y="57.0" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Knight" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="-24.0" y="1845.0" />
+      <point x="-24.0" y="345.0" />
+      <point x="16.0" y="345.0" />
+      <point x="16.0" y="325.0" />
+      <point x="585.7083100775196" y="325.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Pawn" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="505.0" />
+      <point x="16.0" y="505.0" />
+      <point x="16.0" y="485.0" />
+      <point x="-104.0" y="485.0" />
+      <point x="-104.0" y="305.0" />
+      <point x="292.7797705426356" y="305.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Piece.Rook" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="58.5" />
+      <point x="1066.7916341085272" y="385.0" />
+      <point x="483.7797705426357" y="385.0" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Panel.HistorizePanel" relationship="CREATE">
+      <point x="61.75" y="57.0" />
+      <point x="2086.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="952.0414387596896" />
+      <point x="2312.697744496124" y="952.0414387596896" />
+      <point x="45.75" y="-57.0" />
+    </edge>
+    <edge source="Piece.King" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="58.5" />
+      <point x="192.26785116279075" y="385.0" />
+      <point x="483.7797705426357" y="385.0" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Panel.TitlePanel" target="Panel.Button" relationship="CREATE">
+      <point x="0.0" y="-58.5" />
+      <point x="2519.3596471317833" y="972.0414387596896" />
+      <point x="1873.785841860465" y="972.0414387596896" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Rook" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="56.0" y="1845.0" />
+      <point x="56.0" y="345.0" />
+      <point x="875.7916341085272" y="345.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Queen" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1605.0" />
+      <point x="136.0" y="1605.0" />
+      <point x="136.0" y="1505.0" />
+      <point x="-308.66145417922473" y="1505.0" />
+      <point x="-95.5" y="-58.5" />
+    </edge>
+    <edge source="Panel.PanelManager" target="Panel.GamePanel" relationship="CREATE">
+      <point x="45.25" y="-69.0" />
+      <point x="2828.075547038759" y="2285.0" />
+      <point x="2086.285841860465" y="2285.0" />
+      <point x="61.75" y="57.0" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Logic.Mouse" relationship="CREATE">
+      <point x="61.75" y="57.0" />
+      <point x="2086.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="952.0414387596896" />
+      <point x="956.8212651162789" y="952.0414387596896" />
+      <point x="66.5" y="81.0" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Bishop" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="96.0" y="1845.0" />
+      <point x="96.0" y="365.0" />
+      <point x="1170.1487689922485" y="365.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Piece.Bishop" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="58.5" />
+      <point x="1361.1487689922485" y="385.0" />
+      <point x="483.7797705426357" y="385.0" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Piece.Pawn" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="58.5" />
+      <point x="483.7797705426356" y="412.69751408124034" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Panel.PanelManager" target="Panel.TitlePanel" relationship="CREATE">
+      <point x="45.25" y="-69.0" />
+      <point x="2828.075547038759" y="2285.0" />
+      <point x="2086.285841860465" y="2285.0" />
+      <point x="2086.285841860465" y="1652.0414387596898" />
+      <point x="2206.285841860465" y="1652.0414387596898" />
+      <point x="2206.285841860465" y="1472.0414387596898" />
+      <point x="2519.3596471317833" y="1472.0414387596898" />
+      <point x="0.0" y="-58.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Panel.Button" relationship="CREATE">
+      <point x="61.75" y="57.0" />
+      <point x="2086.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="1452.0414387596898" />
+      <point x="2066.285841860465" y="1452.0414387596898" />
+      <point x="2066.285841860465" y="972.0414387596896" />
+      <point x="1873.785841860465" y="972.0414387596896" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Panel.Board" relationship="CREATE">
+      <point x="61.75" y="57.0" />
+      <point x="2086.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="1632.0414387596898" />
+      <point x="1926.285841860465" y="952.0414387596896" />
+      <point x="1793.035841860465" y="952.0414387596896" />
+      <point x="59.25" y="57.0" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.King" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="-64.0" y="1845.0" />
+      <point x="-64.0" y="325.0" />
+      <point x="-24.0" y="325.0" />
+      <point x="-24.0" y="285.0" />
+      <point x="1.2678511627907483" y="285.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Queen" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="545.0" />
+      <point x="256.0" y="545.0" />
+      <point x="256.0" y="1485.0" />
+      <point x="-308.66145417922473" y="1485.0" />
+      <point x="-95.5" y="-58.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Logic.Game" relationship="TO_ONE">
+      <point x="-61.75" y="57.0" />
+      <point x="1962.785841860465" y="1832.0414387596898" />
+      <point x="-33.95856124030996" y="1832.0414387596898" />
+      <point x="-97.0" y="-273.0" />
+    </edge>
+    <edge source="Logic.Game" target="Panel.GamePanel" relationship="TO_ONE">
+      <point x="-97.0" y="-273.0" />
+      <point x="-33.95856124030996" y="1945.0" />
+      <point x="996.0" y="1945.0" />
+      <point x="996.0" y="1892.0414387596898" />
+      <point x="1646.285841860465" y="1892.0414387596898" />
+      <point x="1646.285841860465" y="1632.0414387596898" />
+      <point x="1962.785841860465" y="1632.0414387596898" />
+      <point x="-61.75" y="57.0" />
+    </edge>
+    <edge source="Logic.Game" target="Logic.Historize" relationship="TO_ONE">
+      <point x="-97.0" y="-273.0" />
+      <point x="-33.95856124030996" y="1945.0" />
+      <point x="996.0" y="1945.0" />
+      <point x="996.0" y="1825.0" />
+      <point x="499.0001116279069" y="1825.0" />
+      <point x="73.5" y="57.0" />
+    </edge>
+    <edge source="Panel.PanelManager" target="Panel.GamePanel" relationship="TO_ONE">
+      <point x="-45.25" y="-69.0" />
+      <point x="2737.575547038759" y="2285.0" />
+      <point x="2006.285841860465" y="2285.0" />
+      <point x="2006.285841860465" y="1872.0414387596898" />
+      <point x="1646.285841860465" y="1872.0414387596898" />
+      <point x="1646.285841860465" y="1632.0414387596898" />
+      <point x="2176.4763844961244" y="1632.0414387596898" />
+      <point x="2176.4763844961244" y="1370.869110077519" />
+      <point x="1962.785841860465" y="1370.869110077519" />
+      <point x="-61.75" y="57.0" />
+    </edge>
+    <edge source="Piece.Knight" target="Piece.Piece" relationship="GENERALIZATION">
+      <point x="95.5" y="58.5" />
+      <point x="776.7083100775196" y="385.0" />
+      <point x="483.7797705426357" y="385.0" />
+      <point x="0.0" y="-298.5" />
+    </edge>
+    <edge source="Logic.Game" target="Logic.GameTimers" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="652.2087844961238" y="1845.0" />
+      <point x="-58.25" y="204.0" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Knight" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="505.0" />
+      <point x="16.0" y="505.0" />
+      <point x="16.0" y="325.0" />
+      <point x="585.7083100775196" y="325.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Logic.Game" target="Logic.GameTimers" relationship="TO_ONE">
+      <point x="-97.0" y="-273.0" />
+      <point x="-33.95856124030996" y="1945.0" />
+      <point x="996.0" y="1945.0" />
+      <point x="996.0" y="1825.0" />
+      <point x="768.7087844961238" y="1825.0" />
+      <point x="58.25" y="204.0" />
+    </edge>
+    <edge source="Piece.Move" target="Piece.Queen" relationship="CREATE">
+      <point x="0.0" y="-105.0" />
+      <point x="495.0001116279069" y="1505.0" />
+      <point x="-308.66145417922473" y="1505.0" />
+      <point x="-95.5" y="-58.5" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Pawn" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="305.0" />
+      <point x="292.7797705426356" y="305.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Logic.Game" target="Logic.Historize" relationship="CREATE">
+      <point x="97.0" y="-273.0" />
+      <point x="160.04143875969004" y="1925.0" />
+      <point x="-104.0" y="1925.0" />
+      <point x="-104.0" y="1845.0" />
+      <point x="352.0001116279069" y="1845.0" />
+      <point x="-73.5" y="57.0" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.King" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="505.0" />
+      <point x="16.0" y="505.0" />
+      <point x="16.0" y="365.0" />
+      <point x="-24.0" y="365.0" />
+      <point x="-24.0" y="285.0" />
+      <point x="1.2678511627907483" y="285.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Logic.Mouse" relationship="TO_ONE">
+      <point x="-61.75" y="57.0" />
+      <point x="1962.785841860465" y="1652.0414387596898" />
+      <point x="1156.0" y="1652.0414387596898" />
+      <point x="1156.0" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="992.0414387596896" />
+      <point x="1586.285841860465" y="992.0414387596896" />
+      <point x="1586.285841860465" y="952.0414387596896" />
+      <point x="823.8212651162789" y="952.0414387596896" />
+      <point x="-66.5" y="81.0" />
+    </edge>
+    <edge source="Piece.Piece" target="Piece.Rook" relationship="CREATE">
+      <point x="-136.0" y="-298.5" />
+      <point x="347.7797705426357" y="505.0" />
+      <point x="16.0" y="505.0" />
+      <point x="16.0" y="445.0" />
+      <point x="56.0" y="445.0" />
+      <point x="56.0" y="345.0" />
+      <point x="875.7916341085272" y="345.0" />
+      <point x="-95.5" y="58.5" />
+    </edge>
+    <edge source="Panel.GamePanel" target="Panel.HistorizePanel" relationship="TO_ONE">
+      <point x="-61.75" y="57.0" />
+      <point x="1962.785841860465" y="1652.0414387596898" />
+      <point x="1156.0" y="1652.0414387596898" />
+      <point x="1156.0" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="1472.0414387596898" />
+      <point x="1806.285841860465" y="972.0414387596896" />
+      <point x="2266.947744496124" y="972.0414387596896" />
+      <point x="0.0" y="57.0" />
+    </edge>
+    <edge source="Logic.Game" target="Piece.Piece" relationship="TO_MANY">
+      <point x="-97.0" y="-273.0" />
+      <point x="-33.95856124030996" y="1945.0" />
+      <point x="996.0" y="1945.0" />
+      <point x="996.0" y="1825.0" />
+      <point x="1076.0" y="1825.0" />
+      <point x="1076.0" y="545.0" />
+      <point x="619.7797705426357" y="545.0" />
+      <point x="136.0" y="-298.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.46796642830609214" showDependencies="true" x="1447.4855193798448" y="1295.836527131783" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
